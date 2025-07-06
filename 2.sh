@@ -54,13 +54,13 @@ git clone git://git.yoctoproject.org/poky
 
 echo "git clone git://git.yoctoproject.org/poky"
 sleep 3
-cd poky    # Poky - Стандартное название, лучше не менять
+cd poky    
 echo "cd poky"
 source oe-init-build-env
 echo "source oe-init-build-env"
 
 sleep 3
-cd build            # build - стандартное название папки, лучше не менять
+cd build            
 echo "cd build"
 
 mainn
@@ -147,7 +147,6 @@ echo " 4 - Создать свой слой  "
 echo " 5 - Exit  "
 echo " 6 - Главное меню  "
 echo " 7 - Uptime and df / "
-echo " 8 - Запуск образа в qemu " 
 echo " Введите значение ... "
 main
 }
@@ -172,22 +171,10 @@ case $number in
 ;;
 7) uptimedf
 ;;
-8) runimage
-;;
 *) mainn
 ;;
 esac
 }
-
-function runimage() {
-echo " Запуск образа в Qemu..."	
-qemu-system-arm -m 256, -nographic \
--drive file =./build/tmp/deploy/images/qemux86-64/bzImage \
-format=raw, if=mtd, -net nic -net user, hostfwd=:127.0.0.1:2222-:22, \
-hostfwd=:127.0.0.1:443, hostname=qemu
-
-}
-
 
 function uptimedf() {
 echo " "
@@ -196,9 +183,6 @@ df /
 echo " "
 mainn
 }
-
-
-
 
 #! /bin/bash
 ### - 0 ГЛАВНОЕ МЕНЮ ------------------
