@@ -1,7 +1,7 @@
-#
-#  Тест 1
+#  Yocto installer by Rybochkin Aleksei
+#  
 #  Первая версия установочного файла, просто установка yocto poky
-#  Не содержит сырцов...
+#  
 #
 #  Author Rybochkin Aleksei
 #  July 2025
@@ -12,14 +12,8 @@
 #
 #
 #
-#  BB_NUMBER_THREADS = «4»
+#  
 #
-
-
-
-
-
-
 ### - 1  УСТАНОВКА ГИТА -------------
 
 function fnyocto() {
