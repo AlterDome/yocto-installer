@@ -190,8 +190,7 @@ function runimage() {
 echo " Запуск образа в Qemu..."	
 qemu-system-arm -m 256, -nographic \
 -drive file =./build/tmp/deploy/images/qemux86-64/bzImage \
-format=raw, if=mtd, -net nic -net user, hostfwd=:127.0.0.1:2222-:22, \
-hostfwd=:127.0.0.1:443, hostname=qemu
+format=raw
 
 }
 
