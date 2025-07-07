@@ -1,7 +1,7 @@
-#  Yocto installer by Rybochkin Aleksei
-#  
+#
+#  Тест 1
 #  Первая версия установочного файла, просто установка yocto poky
-#  
+#  Не содержит сырцов...
 #
 #  Author Rybochkin Aleksei
 #  July 2025
@@ -12,8 +12,14 @@
 #
 #
 #
-#  
+#  BB_NUMBER_THREADS = «4»
 #
+
+
+
+
+
+
 ### - 1  УСТАНОВКА ГИТА -------------
 
 function fnyocto() {
@@ -54,13 +60,13 @@ git clone git://git.yoctoproject.org/poky
 
 echo "git clone git://git.yoctoproject.org/poky"
 sleep 3
-cd poky    
+cd poky    # Poky - Стандартное название, лучше не менять
 echo "cd poky"
 source oe-init-build-env
 echo "source oe-init-build-env"
 
 sleep 3
-cd build            
+cd build            # build - стандартное название папки, лучше не менять
 echo "cd build"
 
 mainn
@@ -78,7 +84,7 @@ mainn
 
 ### - 3 ВЫБОРЫ В BITBAKE -----------------
 function fnbitbake() {
-# source oe-init-build-env
+source oe-init-build-env
 echo " Выберите свой вариант установки..."
 echo " 1 - bitbake core-image-minimal "
 echo " 2 - bitbake core-image-full-cmdline "
@@ -116,6 +122,7 @@ echo " "
 function fnlayer() {
 echo " "
 echo " Введина название слоя - желательно с meta-  "
+cd poky  # перешли в каталог поки для создания слоя...
 read lay
 
 bitbake-layers create-layer $lay
@@ -147,6 +154,7 @@ echo " 4 - Создать свой слой  "
 echo " 5 - Exit  "
 echo " 6 - Главное меню  "
 echo " 7 - Uptime and df / "
+echo " 8 - Запуск образа в qemu " 
 echo " Введите значение ... "
 main
 }
@@ -171,10 +179,22 @@ case $number in
 ;;
 7) uptimedf
 ;;
+8) runimage
+;;
 *) mainn
 ;;
 esac
 }
+
+function runimage() {
+echo " Запуск образа в Qemu..."	
+qemu-system-arm -m 256, -nographic \
+-drive file =./build/tmp/deploy/images/qemux86-64/bzImage \
+format=raw, if=mtd, -net nic -net user, hostfwd=:127.0.0.1:2222-:22, \
+hostfwd=:127.0.0.1:443, hostname=qemu
+
+}
+
 
 function uptimedf() {
 echo " "
@@ -183,6 +203,9 @@ df /
 echo " "
 mainn
 }
+
+
+
 
 #! /bin/bash
 ### - 0 ГЛАВНОЕ МЕНЮ ------------------
