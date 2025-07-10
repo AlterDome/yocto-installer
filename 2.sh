@@ -155,6 +155,11 @@ echo " 5 - Exit  "
 echo " 6 - Главное меню  "
 echo " 7 - Uptime and df / "
 echo " 8 - Запуск образа в qemu " 
+echo " 9 - bitbake-layers show-layers"
+
+
+
+
 echo " Введите значение ... "
 main
 }
@@ -181,6 +186,9 @@ case $number in
 ;;
 8) runimage
 ;;
+9) showlayers
+;;
+
 *) mainn
 ;;
 esac
@@ -188,9 +196,44 @@ esac
 
 function runimage() {
 echo " Запуск образа в Qemu..."	
-qemu-system-arm -m 256, -nographic \
--drive file =./build/tmp/deploy/images/qemux86-64/bzImage \
-format=raw
+#qemu-system-arm \
+
+cd /home/alex/poky/1/poky/build/tmp/deploy/images/qemux86-64/
+
+qemu-system-x86_64 \
+-kernel bzImage \
+-drive file=core-image-minimal-qemux86-64.rootfs.ext4 \
+-append "root=/dev/sda console=ttyS0"
+
+
+######
+#-kernel file=./build/tmp/deploy/images/qemux86-64/bzImage-qemux86-64.bin \
+#-hda = ./poky/build/tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs.ext4 \
+#
+#-append "root=/dev/hda console=ttyS0" -nographic
+
+
+#####
+#-append "console=ttyS0 root=/dev/hda initrd=/initrd" \
+#-nographic \
+#-serial stdio -kernel vmlinuz -hda -drive file =./poky/build/tmp/deploy/images/qemux86-64/bzImage \
+#-drive file =./poky/build/tmp/deploy/images/qemux86-64/bzImage \
+#-hda = \
+#./poky/build/tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs.ext4 \
+#-append "console=ttyS0 root=/dev/hda initrd=/initrd" \
+#-cpu q35 \
+#-kernel "vmlinuz" -initrd "initrd" -append "root=/dev/ram0" \
+#format=raw \
+#-m 1G \
+#-device virtio-net-pci,netdev=lan \
+#-net dev user,id=lan \
+
+
+
+
+
+
+
 
 }
 
@@ -203,6 +246,13 @@ echo " "
 mainn
 }
 
+#########################################################
+function showlayers() {
+echo " "
+bitbake-layers show-layers
+echo " "
+mainn
+}
 
 
 
